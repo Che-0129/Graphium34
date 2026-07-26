@@ -28,7 +28,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ),
     [1] = LAYOUT(
         KC_ESC,          KC_NO,           KC_END,          KC_NO,           KC_NO,                            KC_NO,           KC_NO,           KC_NO,           KC_BSPC,         KC_NO,
-        KC_HOME,         MS_BTN2,         MS_BTN1,         MS_BTN3,         KC_NO,                            KC_LEFT,         KC_DOWN,         KC_UP,           KC_RGHT,         KC_NO,
+        KC_HOME,         MS_BTN2,         MS_BTN3,         MS_BTN1,         KC_NO,                            KC_LEFT,         KC_DOWN,         KC_UP,           KC_RGHT,         KC_NO,
         KC_LSFT,         MS_BTN4,         MS_BTN5,         KC_NO,           KC_NO,                            KC_DEL,          KC_NO,           KC_NO,           KC_NO,           KC_NO,
                                                            KC_NO,           KC_NO,           KC_TRNS,         KC_TAB,          KC_ENT
     ),
@@ -271,42 +271,6 @@ bool process_record_enc(uint16_t keycode, keyrecord_t *record) {
     return true;
 }
 
-typedef enum {
-    F_IDLE,
-    F_PENDING,
-    F_SCROLLING,
-    F_AS_KEY,
-} f_state_t;
-
-static f_state_t f_state = F_IDLE;
-static uint16_t  f_timer = 0;
-
-bool process_record_f_scroll(uint16_t keycode, keyrecord_t *record) {
-    if (keycode != JP_F) return true;
-    bool a_active = (a_state == A_TAP || a_state == A_PENDING_HOLD || a_state == A_HOLD || a_state == A_HOLD_READY);
-    bool z_active = (z_state == Z_TAP || z_state == Z_PENDING_HOLD || z_state == Z_HOLD || z_state == Z_HOLD_READY);
-    if (a_active || z_active) return true;
-    if (record->event.pressed) {
-        f_state = F_PENDING;
-        f_timer = timer_read();
-    } else {
-        switch (f_state) {
-            case F_PENDING:
-                tap_code(JP_F);
-                break;
-            case F_AS_KEY:
-                unregister_code(JP_F);
-                break;
-            case F_SCROLLING:
-                break;
-            default:
-                break;
-        }
-        f_state = F_IDLE;
-    }
-    return false;
-}
-
 void matrix_scan_user(void) {
     if (a_state == A_TAP && timer_elapsed(a_timer) >= 200)                               { a_state = A_HOLD; register_code(KC_LCTL); }
     if (a_state == A_HOLD && timer_elapsed(a_timer) >= 500)                              { a_state = A_HOLD_READY; }
@@ -315,12 +279,9 @@ void matrix_scan_user(void) {
     if (z_state == Z_TAP && timer_elapsed(z_timer) >= 200)                               { z_state = Z_HOLD; register_code(KC_LSFT); }
     if (z_state == Z_HOLD && timer_elapsed(z_timer) >= 500)                              { z_state = Z_HOLD_READY; }
     if (z_state == Z_HOLD_READY && z_retap_timer && timer_elapsed(z_retap_timer) >= 100) { z_state = Z_IDLE; z_retap_timer = 0; }
-
-    if (f_state == F_PENDING && timer_elapsed(f_timer) >= 200)                           { f_state = F_AS_KEY; register_code(JP_F); }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    if (!process_record_f_scroll(keycode, record)) return false;
     if (!process_record_a_ctl(keycode, record)) return false;
     if (!process_record_z_sft(keycode, record)) return false;
     if (!process_record_enc(keycode, record)) return false;
@@ -331,31 +292,15 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 }
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
-    if (encoder_pressed) {
+    if (layer_state_is(1)) {
+        tap_code16(clockwise ? MS_WHLU : MS_WHLD);
+    } else if (encoder_pressed) {
         encoder_used = true;
         tap_code16(clockwise ? KC_BRIU : KC_BRID);
     } else {
         tap_code16(clockwise ? KC_VOLU : KC_VOLD);
     }
     return false;
-}
-
-report_mouse_t pointing_device_task_user(report_mouse_t mouse_report) {
-    if (f_state == F_PENDING) {
-        if (abs(mouse_report.y) > 1) {
-            f_state = F_SCROLLING;
-        }
-        else {
-            mouse_report.x = 0;
-            mouse_report.y = 0;
-        }
-    }
-    if (f_state == F_SCROLLING) {
-        mouse_report.v = -mouse_report.y;
-        mouse_report.x = 0;
-        mouse_report.y = 0;
-    }
-    return mouse_report;
 }
 
 void suspend_wakeup_init_user(void) {
