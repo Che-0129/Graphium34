@@ -3,10 +3,10 @@
 #include QMK_KEYBOARD_H
 #include "keymap_japanese.h"
 
-#define MHEN_FN   LT(1, JP_MHEN)
+#define EISU_FN   LT(1, KC_LNG2)
 #define SPC_NUM   LT(2, KC_SPC)
 #define SPC_SMBL  LT(3, KC_SPC)
-#define HENK_FN   LT(4, JP_HENK)
+#define KANA_FN   LT(4, KC_LNG1)
 #define MINS_CTL  RCTL_T(JP_MINS)
 #define SLSH_SFT  RSFT_T(JP_SLSH)
 #define X_SPR     LGUI_T(JP_X)
@@ -24,7 +24,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         JP_Q,            JP_W,            JP_E,            JP_R,            JP_T,                             JP_Y,            JP_U,            JP_I,            JP_O,            JP_P,
         A_CTL,           JP_S,            JP_D,            JP_F,            JP_G,                             JP_H,            JP_J,            JP_K,            JP_L,            MINS_CTL,
         Z_SFT,           X_SPR,           C_META,          JP_V,            JP_B,                             JP_N,            JP_M,            COMM_META,       DOT_SPR,         SLSH_SFT,
-                                                           MHEN_FN,         SPC_NUM,         KC_MUTE,         SPC_SMBL,        HENK_FN
+                                                           EISU_FN,         SPC_NUM,         KC_MUTE,         SPC_SMBL,        KANA_FN
     ),
     [1] = LAYOUT(
         KC_ESC,          KC_NO,           KC_END,          KC_NO,           KC_NO,                            KC_NO,           KC_NO,           KC_NO,           KC_BSPC,         KC_NO,
