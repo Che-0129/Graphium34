@@ -21,7 +21,7 @@ enum custom_keycodes {
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [0] = LAYOUT(
-        JP_Q,            JP_W,            JP_E,            JP_R,            JP_T,                             JP_Y,            JP_U,            JP_I,            JP_O,            JP_P,
+        LCS_T(JP_Q),     JP_W,            JP_E,            JP_R,            JP_T,                             JP_Y,            JP_U,            JP_I,            JP_O,            JP_P,
         A_CTL,           JP_S,            JP_D,            JP_F,            JP_G,                             JP_H,            JP_J,            JP_K,            JP_L,            MINS_CTL,
         Z_SFT,           X_SPR,           C_META,          JP_V,            JP_B,                             JP_N,            JP_M,            COMM_META,       DOT_SPR,         SLSH_SFT,
                                                            EISU_FN,         SPC_NUM,         KC_MUTE,         SPC_SMBL,        KANA_FN
