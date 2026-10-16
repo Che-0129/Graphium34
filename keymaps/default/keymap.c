@@ -36,7 +36,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,           KC_NO,           KC_NO,           KC_NO,           KC_NO,                            KC_NO,           KC_NO,           KC_NO,           KC_NO,           KC_NO,
         JP_1,            JP_2,            JP_3,            JP_4,            JP_5,                             JP_6,            JP_7,            JP_8,            JP_9,            JP_0,
         KC_TRNS,         KC_NO,           KC_NO,           KC_NO,           KC_NO,                            KC_NO,           KC_NO,           KC_NO,           KC_NO,           KC_NO,
-                                                           KC_NO,           KC_NO,           KC_TRNS,         KC_TRNS,         KC_NO
+                                                           KC_NO,           KC_NO,           KC_TRNS,         KC_TRNS,         KC_TRNS
     ),
     [3] = LAYOUT(
         JP_GRV,          JP_ASTR,         JP_AMPR,         KC_NO,           JP_TILD,                          KC_NO,           JP_UNDS,         JP_LCBR,         JP_RCBR,         KC_NO,
@@ -48,7 +48,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_NO,           KC_NO,           KC_F11,          KC_NO,           KC_NO,                            KC_NO,           KC_NO,           KC_F12,          KC_NO,           KC_NO,
         KC_F1,           KC_F2,           KC_F3,           KC_F4,           KC_F5,                            KC_F6,           KC_F7,           KC_F8,           KC_F9,           KC_F10,
         KC_NO,           KC_NO,           KC_NO,           KC_NO,           KC_NO,                            KC_NO,           KC_NO,           KC_NO,           KC_NO,           KC_NO,
-                                                           KC_NO,           KC_NO,           KC_TRNS,         KC_NO,           KC_NO
+                                                           KC_TRNS,         KC_TRNS,         KC_TRNS,         KC_NO,           KC_NO
     )
 };
 
