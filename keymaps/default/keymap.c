@@ -315,11 +315,11 @@ bool process_record_enc(uint16_t keycode, keyrecord_t *record) {
 
 void matrix_scan_user(void) {
     if (a_state == A_TAP && timer_elapsed(a_timer) >= 200)                               { a_state = A_HOLD; register_code(KC_LCTL); }
-    if (a_state == A_HOLD && timer_elapsed(a_timer) >= 500)                              { a_state = A_HOLD_READY; }
+    if (a_state == A_HOLD && timer_elapsed(a_timer) >= 300)                              { a_state = A_HOLD_READY; }
     if (a_state == A_HOLD_READY && a_retap_timer && timer_elapsed(a_retap_timer) >= 100) { a_state = A_IDLE; a_retap_timer = 0; }
 
     if (z_state == Z_TAP && timer_elapsed(z_timer) >= 200)                               { z_state = Z_HOLD; register_code(KC_LSFT); }
-    if (z_state == Z_HOLD && timer_elapsed(z_timer) >= 500)                              { z_state = Z_HOLD_READY; }
+    if (z_state == Z_HOLD && timer_elapsed(z_timer) >= 300)                              { z_state = Z_HOLD_READY; }
     if (z_state == Z_HOLD_READY && z_retap_timer && timer_elapsed(z_retap_timer) >= 100) { z_state = Z_IDLE; z_retap_timer = 0; }
 }
 
